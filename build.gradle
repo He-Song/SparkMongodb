@@ -1,0 +1,62 @@
+apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+jar {
+    baseName = 'test'
+    version =  '1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+ext {
+  springBootVersion = "2.0.4.RELEASE"
+  fasterxmlVersion = "2.9.6"
+  sparkVersion = "2.4.0"
+}
+
+dependencies {
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter', version: "$springBootVersion")
+    	//{exclude group:"org.springframework.boot", module: "spring-boot-starter-logging"}
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion")
+    	//{exclude group:"com.fasterxml.jackson.core", module: "jackson-databind"}
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "$springBootVersion"
+    
+    
+    
+    
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    api 'org.apache.commons:commons-math3:3.6.1'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:23.0'
+
+    // Use JUnit test framework
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    
+    
+    
+    
+    //mongo+spark
+    compile group: 'org.mongodb.spark', name: 'mongo-spark-connector_2.11', version: "$sparkVersion"
+    compile (group: 'org.apache.spark', name: 'spark-core_2.11', version: "$sparkVersion")
+    	//{exclude group:"com.fasterxml.jackson.core", module: "jackson-databind"}
+    	{ exclude group:"slf4j-log4j12",module:"org.slf4j"}
+    compile group: 'org.apache.spark', name: 'spark-sql_2.11', version: "$sparkVersion"
+    
+    /*解决springboot与spark-core中jackson包的冲突*/
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$fasterxmlVersion"
+    //compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: "$fasterxmlVersion"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "$fasterxmlVersion"
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.11', version: "$fasterxmlVersion"
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    
+    // swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+}

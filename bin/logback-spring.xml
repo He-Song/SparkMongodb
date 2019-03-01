@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+     <include resource="org/springframework/boot/logging/logback/base.xml" />
+     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>stats_files/log/stats-datamanager.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+          <FileNamePattern>
+        stats_files/loghistory/stats-datamanager.log-%d.%i.log.gz
+          </FileNamePattern>
+          <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <MaxFileSize>10MB</MaxFileSize>
+          </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+          <Pattern>%date %level [%thread] %logger %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <logger name="javax.net" level="warn"/>
+    <logger name="javax.management" level="warn"/>
+    <logger name="org.springframework" level="warn"/>
+    <logger name="org.compass" level="warn"/>
+    <logger name="org.tuckey" level="warn"/>
+    <logger name="com.uxsino" level="info" />
+    <logger name="org.apache.spark" level="warn" />
+    <root level="info">
+        <appender-ref ref="ROLLING" />
+    </root>
+</configuration>
