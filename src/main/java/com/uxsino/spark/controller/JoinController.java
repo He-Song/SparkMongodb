@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.config.ReadConfig;
-import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
+import com.uxsino.spark.SparkMongoTest;
 import com.uxsino.spark.common.JoinType;
 
 import io.swagger.annotations.Api;
@@ -32,10 +31,17 @@ public class JoinController {
     @Autowired
     private JavaSparkContext javaSparkContext;
 
+    @ApiOperation("")
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+        SparkMongoTest test = new SparkMongoTest();
+        test.test1(javaSparkContext);
+        return "123";
+    }
+
     @ApiOperation("join表操作，可以输入join类型")
-    @RequestMapping(value = "/byway",method = RequestMethod.GET)
+    @RequestMapping(value = "/byway", method = RequestMethod.GET)
     public String join(String jointype) {
-        JavaMongoRDD<Document> rdd = MongoSpark.load(javaSparkContext);
         Dataset<Row> rdd_A1 = MongoSpark.load(javaSparkContext).toDF();
 
         System.out.println("##############################################");
