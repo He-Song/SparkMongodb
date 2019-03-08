@@ -35,8 +35,8 @@ public class SparkMongoTest implements Serializable {
             .getOrCreate();
         JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
         new SparkMongoTest().test1(jsc);
-        SparkMongoTest.manyJoinTest();
-        // SparkMongoTest.manyLeftJoinTest();
+        // SparkMongoTest.manyJoinTest();
+        SparkMongoTest.manyLeftJoinTest();
     }
 
     public static java.util.List<String> convert(scala.collection.immutable.Seq<String> seq) {
@@ -229,8 +229,13 @@ public class SparkMongoTest implements Serializable {
             .iterator();
         while (it4.hasNext()) {
             Tuple2<String, Tuple2<Tuple2<String, Optional<String>>, Optional<String>>> item = it4.next();
-            System.out.println(
-                "key:" + item._1 + ", col1:" + item._2._1._1 + ", col2:" + item._2._1._2 + ", col3:" + item._2._2);
+            StringBuilder sb = new StringBuilder();
+            sb.append("data:\t").append(item._1).append("\t").append(item._2._1._1).append("\t\t")
+                .append(item._2._1._2.get()).append("\t\t").append(item._2._2.get());
+            System.out.println(sb.toString());
+
+            // System.out.println(
+            // "key:" + item._1 + ", col1:" + item._2._1._1 + ", col2:" + item._2._1._2 + ", col3:" + item._2._2);
         }
     }
 }
